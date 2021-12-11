@@ -12,6 +12,11 @@
     ResizeMode="NoResize"
     WindowStyle="ThreeDBorderWindow"
     mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+    </Window.Resources>
     <Grid Margin="15,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -43,42 +48,84 @@
                     <Setter Property="Padding" Value="15" />
                     <Setter Property="Margin" Value="0,15" />
                 </Style>
-
                 <Style TargetType="tlkt:WatermarkTextBox">
                     <Setter Property="FontSize" Value="16" />
 
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <EventSetter Event="TextChanged" Handler="CalculateOnTextChange" />
+                    <EventSetter Event="KeyDown" Handler="WatermarkTextBox_KeyDown" />
+                    <!--<EventSetter Event="KeyDown" Handler="CalculateOnKeyDown" />-->
                 </Style>
+
             </StackPanel.Resources>
+
             <GroupBox>
                 <StackPanel>
                     <TextBlock>Натрій сировотки, ммоль/л</TextBlock>
-                    <tlkt:WatermarkTextBox Watermark="Норма: 136-145" />
+                    <tlkt:WatermarkTextBox x:Name="NaSyr" Watermark="Норма: 136-145" />
                 </StackPanel>
             </GroupBox>
             <GroupBox>
                 <StackPanel>
                     <TextBlock>Креятинин сировотки, мкмоль/л</TextBlock>
-                    <tlkt:WatermarkTextBox Watermark="Норма: 62-115" />
+                    <tlkt:WatermarkTextBox x:Name="CreaSyr" Watermark="Норма: 62-115" />
                 </StackPanel>
 
             </GroupBox>
             <GroupBox>
                 <StackPanel>
                     <TextBlock>Натрій сечі, ммоль/л</TextBlock>
-                    <tlkt:WatermarkTextBox Watermark="Норма: 100-260" />
+                    <tlkt:WatermarkTextBox x:Name="NaUrine" Watermark="Норма: 100-260" />
                 </StackPanel>
             </GroupBox>
             <GroupBox>
                 <StackPanel>
                     <TextBlock>Креятинин сечі, мкмоль/л</TextBlock>
-                    <tlkt:WatermarkTextBox Watermark="Норма: 1768-32708" />
+                    <tlkt:WatermarkTextBox x:Name="CreaUrine" Watermark="Норма: 1768-32708" />
                 </StackPanel>
             </GroupBox>
             <Button
+                x:Name="Reset"
                 Margin="15"
+                Click="Reset_Click"
                 Content="Скинути"
                 FontSize="16" />
         </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalContentAlignment="Center"
+                Background="LightBlue"
+                FontSize="25">
+                <Label.Content>
+                    <Bold x:Name="Percentage">100</Bold>
+                </Label.Content>
+            </Label>
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Background="Yellow"
+                TextAlignment="Center">
+                <Bold x:Name="Diagnosis">Мемостан</Bold>
+                <LineBreak />
+                <Span x:Name="Explanation">ПоясненняLorem</Span>
+            </TextBlock>
+        </Grid>
+        <!--<StackPanel Grid.Row="1" Grid.Column="1" Height="auto">
+            <Label>100 %</Label>
+            <TextBlock Height="">
+                <Bold x:Name="Diagnosis">Мемостан</Bold>
+                <LineBreak />
+                <Span>ПоясненняLorem</Span>
+            </TextBlock>
+        </StackPanel>-->
+
     </Grid>
 </Window>
