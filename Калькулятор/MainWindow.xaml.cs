@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
 using Xceed.Wpf.Toolkit;
-
 namespace Калькулятор
 {
     /// <summary>
@@ -13,6 +15,7 @@ namespace Калькулятор
     public partial class MainWindow : Window
     {
         private List<WatermarkTextBox> textBoxes;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -24,14 +27,7 @@ namespace Калькулятор
             textBoxes.Add(NaSyr);
             textBoxes.Add(CreaUrine);
 
-
-            //foreach (WatermarkTextBox textBox in textBoxes)
-            //    textBox.KeyDown += CalculateOnKeyDown;
-
-
         }
-
-
 
         private void WatermarkTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -49,75 +45,6 @@ namespace Калькулятор
 
 
         }
-
-        private void CalculateOnKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            var box = sender as WatermarkTextBox;
-            int keyNumber = (int) e.Key;
-
-            if (((keyNumber >= 34) && (keyNumber <= 43))
-                   ||
-               ((keyNumber >= 74) && (keyNumber <= 83)))
-            {
-                box.KeyDown += CalculateOnKeDownWow;
-                //int parseTemp;
-
-                //var valuesInBoxes = (from textbox in textBoxes
-                //                     select int.TryParse(textbox.Text, out parseTemp) ? parseTemp : -1).ToArray();
-
-
-                //if (!valuesInBoxes.Contains(-1))
-                //{
-                //    double fractExcretion = CalculateFractExcretion(
-                //        valuesInBoxes [0], valuesInBoxes [1], valuesInBoxes [2], valuesInBoxes [3]);
-
-                //    var interpreation = InterpretFractExcretion(fractExcretion);
-                //    Percentage.Inlines.Clear();
-                //    Percentage.Inlines.Add(fractExcretion + "%");
-
-                //    Diagnosis.Inlines.Clear();
-                //    Diagnosis.Inlines.Add(interpreation.Item1);
-
-                //    Explanation.Inlines.Clear();
-                //    Explanation.Inlines.Add(interpreation.Item2);
-                //}
-
-
-            }
-
-        }
-
-        private void CalculateOnKeDownWow(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            int keyNumber = (int) e.Key;
-
-
-            int parseTemp;
-
-            var valuesInBoxes = (from textbox in textBoxes
-                                 select int.TryParse(textbox.Text, out parseTemp) ? parseTemp : -1).ToArray();
-
-
-            if (!valuesInBoxes.Contains(-1))
-            {
-                double fractExcretion = CalculateFractExcretion(
-                    valuesInBoxes [0], valuesInBoxes [1], valuesInBoxes [2], valuesInBoxes [3]);
-
-                var interpreation = InterpretFractExcretion(fractExcretion);
-                Percentage.Inlines.Clear();
-                Percentage.Inlines.Add(fractExcretion + "%");
-
-                Diagnosis.Inlines.Clear();
-                Diagnosis.Inlines.Add(interpreation.Item1);
-
-                Explanation.Inlines.Clear();
-                Explanation.Inlines.Add(interpreation.Item2);
-
-
-
-            }
-        }
-
         private void CalculateOnTextChange(object sender, TextChangedEventArgs e)
         {
 
@@ -129,18 +56,26 @@ namespace Калькулятор
 
             if (!valuesInBoxes.Contains(-1))
             {
-                double fractExcretion = CalculateFractExcretion(
+                double fractExcretion = SodiumExcretion.CalculateFractExcretion(
                     valuesInBoxes [0], valuesInBoxes [1], valuesInBoxes [2], valuesInBoxes [3]);
 
-                var interpreation = InterpretFractExcretion(fractExcretion);
-                Percentage.Inlines.Clear();
-                Percentage.Inlines.Add($"{fractExcretion:f2}" + "%");
+                var interpretation = SodiumExcretion.InterpretFractExcretion(fractExcretion);
 
-                Diagnosis.Inlines.Clear();
-                Diagnosis.Inlines.Add(interpreation.Item1);
 
-                Explanation.Inlines.Clear();
-                Explanation.Inlines.Add(interpreation.Item2);
+                Application.Current.MainWindow.Resources ["FractExtraction"] = fractExcretion;
+
+
+                Application.Current.MainWindow.Resources ["Diagnosis"] = interpretation.Item1;
+                Application.Current.MainWindow.Resources ["Explanation"] = interpretation.Item2;
+
+                //Percentage.Inlines.Clear();
+                //Percentage.Inlines.Add($"{fractExcretion:f2}" + "%");
+
+                //Diagnosis.Inlines.Clear();
+                //Diagnosis.Inlines.Add(interpretation.Item1);
+
+                //Explanation.Inlines.Clear();
+                //Explanation.Inlines.Add(interpretation.Item2);
 
 
 
@@ -153,21 +88,33 @@ namespace Калькулятор
                 textbox.Text = "";
         }
 
-        public static double CalculateFractExcretion(int SCr, int UNa, int SNa, int UCr)
-        => 100 * ((double) SCr / 1000 * UNa) / (SNa * (double) UCr / 1000);
 
-        public static (string, string) InterpretFractExcretion(double fractExcretion)
+
+    }
+
+    public class PercentageToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string oliguriaType, additionalInfo;
+            var brush = new SolidColorBrush(Colors.Lavender);
+            if (parameter.ToString() == "title")
+            {
+                double trueValue = System.Convert.ToDouble(value?.ToString()?.TrimStart('0'));
 
-            if (fractExcretion < 1)
-                (oliguriaType, additionalInfo) = ("Преренальна", "");
-            else if ((fractExcretion >= 1) && (fractExcretion <= 4))
-                (oliguriaType, additionalInfo) = ("Ренальна", "");
-            else
-                (oliguriaType, additionalInfo) = ("Постренальна", "");
+                if ((trueValue) < 1)
+                    brush.Color = Colors.Lavender;
+                else if ((trueValue >= 1) && (trueValue <= 4))
+                    brush.Color = Colors.LemonChiffon;
+                else
+                    brush.Color = Colors.WhiteSmoke;
 
-            return (oliguriaType, additionalInfo);
+            }
+            return brush;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
         }
     }
 }

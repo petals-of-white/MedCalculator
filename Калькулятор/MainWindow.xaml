@@ -5,14 +5,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Калькулятор"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     xmlns:tlkt="http://schemas.xceed.com/wpf/xaml/toolkit"
-    Title="MainWindow"
+    Title="Фракційна екскреція натрію"
     Width="700"
     Height="600"
+    Icon="/wtml.jpg"
     ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
     WindowStyle="ThreeDBorderWindow"
     mc:Ignorable="d">
     <Window.Resources>
+        <local:PercentageToColorConverter x:Key="ColorConverter" />
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="16" />
         </Style>
@@ -28,14 +32,16 @@
         </Grid.RowDefinitions>
         <TextBlock
             Grid.Row="0"
+            Grid.RowSpan="1"
             Grid.Column="0"
             Grid.ColumnSpan="2"
+            Width="310"
             HorizontalAlignment="Center"
             FontFamily="Ravie"
             FontSize="20"
             FontStyle="Normal"
             FontWeight="Bold"
-            Text="Фракційонна екскреція натрію" />
+            Text="Фракційна екскреція натрію" />
 
         <StackPanel Grid.Row="1" Grid.Column="0">
             <StackPanel.Resources>
@@ -98,34 +104,34 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label
+
+            <TextBlock
+                x:Name="Percentage"
                 Grid.Row="0"
                 Grid.Column="0"
-                HorizontalContentAlignment="Center"
-                Background="LightBlue"
-                FontSize="25">
-                <Label.Content>
-                    <Bold x:Name="Percentage">100</Bold>
-                </Label.Content>
-            </Label>
+                Background="{Binding Path=., Converter={StaticResource ColorConverter}, ConverterParameter='title'}"
+                DataContext="{DynamicResource FractExtraction}"
+                FontSize="25"
+                FontWeight="Bold"
+                Text="{Binding Path=., StringFormat={}{0:f2}%}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="1"
-                Background="Yellow"
-                TextAlignment="Center">
-                <Bold x:Name="Diagnosis">Мемостан</Bold>
+                Background="#2FBABABA"
+                TextAlignment="Center"
+                TextWrapping="Wrap">
+                <Run
+                    x:Name="Diagnosis"
+                    FontWeight="Bold"
+                    Text="{DynamicResource Diagnosis}" />
                 <LineBreak />
-                <Span x:Name="Explanation">ПоясненняLorem</Span>
+                <LineBreak />
+                <Run x:Name="Explanation" Text="{DynamicResource Explanation}" />
             </TextBlock>
         </Grid>
-        <!--<StackPanel Grid.Row="1" Grid.Column="1" Height="auto">
-            <Label>100 %</Label>
-            <TextBlock Height="">
-                <Bold x:Name="Diagnosis">Мемостан</Bold>
-                <LineBreak />
-                <Span>ПоясненняLorem</Span>
-            </TextBlock>
-        </StackPanel>-->
+
 
     </Grid>
 </Window>
