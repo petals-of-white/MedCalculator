@@ -67,27 +67,27 @@
 
             <GroupBox>
                 <StackPanel>
-                    <TextBlock>Натрій сировотки, ммоль/л</TextBlock>
-                    <tlkt:WatermarkTextBox x:Name="NaSyr" Watermark="Норма: 136-145" />
+                    <TextBlock>Натрій сироватки, ммоль/л</TextBlock>
+                    <tlkt:WatermarkTextBox x:Name="NaSyr" Watermark="Норма: 136 - 145" />
                 </StackPanel>
             </GroupBox>
             <GroupBox>
                 <StackPanel>
-                    <TextBlock>Креятинин сировотки, мкмоль/л</TextBlock>
-                    <tlkt:WatermarkTextBox x:Name="CreaSyr" Watermark="Норма: 62-115" />
+                    <TextBlock>Креятинін сироватки, мкмоль/л</TextBlock>
+                    <tlkt:WatermarkTextBox x:Name="CreaSyr" Watermark="Норма: 62 - 115" />
                 </StackPanel>
 
             </GroupBox>
             <GroupBox>
                 <StackPanel>
                     <TextBlock>Натрій сечі, ммоль/л</TextBlock>
-                    <tlkt:WatermarkTextBox x:Name="NaUrine" Watermark="Норма: 100-260" />
+                    <tlkt:WatermarkTextBox x:Name="NaUrine" Watermark="Норма: 100 - 260" />
                 </StackPanel>
             </GroupBox>
             <GroupBox>
                 <StackPanel>
-                    <TextBlock>Креятинин сечі, мкмоль/л</TextBlock>
-                    <tlkt:WatermarkTextBox x:Name="CreaUrine" Watermark="Норма: 1768-32708" />
+                    <TextBlock>Креятинін сечі, мкмоль/л</TextBlock>
+                    <tlkt:WatermarkTextBox x:Name="CreaUrine" Watermark="Норма: 1768 - 32708" />
                 </StackPanel>
             </GroupBox>
             <Button

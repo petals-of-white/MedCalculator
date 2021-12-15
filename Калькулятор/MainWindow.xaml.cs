@@ -68,17 +68,6 @@ namespace Калькулятор
                 Application.Current.MainWindow.Resources ["Diagnosis"] = interpretation.Item1;
                 Application.Current.MainWindow.Resources ["Explanation"] = interpretation.Item2;
 
-                //Percentage.Inlines.Clear();
-                //Percentage.Inlines.Add($"{fractExcretion:f2}" + "%");
-
-                //Diagnosis.Inlines.Clear();
-                //Diagnosis.Inlines.Add(interpretation.Item1);
-
-                //Explanation.Inlines.Clear();
-                //Explanation.Inlines.Add(interpretation.Item2);
-
-
-
             }
         }
 
@@ -87,7 +76,6 @@ namespace Калькулятор
             foreach (var textbox in textBoxes)
                 textbox.Text = "";
         }
-
 
 
     }
