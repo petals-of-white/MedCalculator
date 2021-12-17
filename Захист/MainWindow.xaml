@@ -1,0 +1,133 @@
+﻿<Window
+    x:Class="Захист.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Захист"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tlkt="http://schemas.xceed.com/wpf/xaml/toolkit"
+    Title="MainWindow"
+    Width="700"
+    Height="377"
+    mc:Ignorable="d">
+    <Grid Margin="15,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.RowSpan="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Width="650"
+            HorizontalAlignment="Center"
+            FontFamily="Ravie"
+            FontSize="20"
+            FontStyle="Normal"
+            FontWeight="Bold"
+            Text="Кількість гідрокарбонату для корекції метаболічного ацидозу" />
+
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+
+                </Style>
+                <Style TargetType="GroupBox">
+                    <Setter Property="Padding" Value="15" />
+                    <Setter Property="Margin" Value="0,15" />
+                </Style>
+                <Style TargetType="tlkt:WatermarkTextBox">
+                    <Setter Property="FontSize" Value="16" />
+
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+
+                    <!--<EventSetter Event="KeyDown" Handler="CalculateOnKeyDown" />-->
+                </Style>
+
+            </StackPanel.Resources>
+
+
+            <GroupBox>
+                <StackPanel>
+                    <TextBlock>Маса тіла, кг</TextBlock>
+                    <tlkt:WatermarkTextBox
+                        x:Name="BodyMass"
+                        KeyDown="WatermarkTextBox_KeyDown"
+                        TextChanged="BodyMass_TextChanged"
+                        Watermark="0" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox>
+                <StackPanel>
+                    <TextBlock>Дефіцит основ, ммоль/л</TextBlock>
+                    <tlkt:WatermarkTextBox
+                        x:Name="Deficit"
+                        KeyDown="WatermarkTextBox_KeyDown"
+                        TextChanged="BE_TextChange"
+                        Watermark="Мін: -2.4" />
+                </StackPanel>
+
+            </GroupBox>
+
+            <Button
+                x:Name="Reset"
+                Margin="15"
+                Click="Reset_Click"
+                Content="Скинути"
+                FontSize="16" />
+        </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition Height="70" />
+                <RowDefinition Height="70" />
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="22" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="TextAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Height" Value="50" />
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock
+                x:Name="Percentage"
+                Grid.Row="0"
+                Grid.Column="0"
+                Background="#2FBABABA"
+                DataContext="{DynamicResource HydroCarb}"
+                Text="{Binding Path=., StringFormat={}{0:f2} ммоль NaHCO3}"
+                TextAlignment="Center" />
+
+
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Background="#2FBABABA"
+                DataContext="{DynamicResource volume_4}"
+                Text="{Binding Path=., StringFormat={}{0:f2} мл 4% NaHCO3}"
+                TextAlignment="Center" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                Background="#2FBABABA"
+                DataContext="{DynamicResource volume_8_4}"
+                Text="{Binding Path=., StringFormat={}{0:f2} мл 8.4% NaHCO3}"
+                TextAlignment="Center" />
+        </Grid>
+
+
+    </Grid>
+</Window>

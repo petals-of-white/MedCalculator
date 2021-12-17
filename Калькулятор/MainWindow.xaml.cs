@@ -9,6 +9,7 @@ using System.Windows.Media;
 using Xceed.Wpf.Toolkit;
 namespace Калькулятор
 {
+    //екскреція натрію
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
